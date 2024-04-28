@@ -32,17 +32,16 @@ app.post("/transcode", (req, res) => {
   if (!inputUrl) {
     return res.status(400).send("Input URL is required.");
   }
-
   const command = `ffmpeg -i ${inputUrl} \
-        -vf "scale=1280:720" -c:a aac -b:a 128k -c:v libx264 -b:v 1500k -f dash ${generateUniqueFilename(
-          "720p.mpd"
-        )} \
-        -vf "scale=854:480" -c:a aac -b:a 128k -c:v libx264 -b:v 1000k -f dash ${generateUniqueFilename(
-          "480p.mpd"
-        )} \
-        -vf "scale=256:144" -c:a aac -b:a 64k -c:v libx264 -b:v 200k -f dash ${generateUniqueFilename(
-          "144p.mpd"
-        )}`;
+  -vf "scale=1280:720" -c:a aac -b:a 128k -c:v libx264 -b:v 1500k -f dash ${generateUniqueFilename(
+    "720p.mpd"
+  )} \
+  -vf "scale=854:480" -c:a aac -b:a 128k -c:v libx264 -b:v 1000k -f dash ${generateUniqueFilename(
+    "480p.mpd"
+  )} \
+  -vf "scale=256:144" -c:a aac -b:a 64k -c:v libx264 -b:v 200k -f dash ${generateUniqueFilename(
+    "144p.mpd"
+  )}`;
 
   exec(command, async (error, stdout, stderr) => {
     if (error) {
