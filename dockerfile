@@ -20,6 +20,9 @@ WORKDIR /app
 COPY package.json tsconfig.json .env.example ./
 COPY src ./src
 
+# Install npm dependencies
+RUN npm install
+
 # Expose port 3000
 EXPOSE 3000
 
