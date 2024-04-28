@@ -27,6 +27,7 @@ function generateUniqueFilename(filename: any) {
 }
 
 app.post("/transcode", (req, res) => {
+  console.log("Started");
   const inputUrl = req.body.inputUrl;
   if (!inputUrl) {
     return res.status(400).send("Input URL is required.");
