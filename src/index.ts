@@ -19,11 +19,14 @@ const bucketName = process.env.S3_BUCKET_NAME;
 
 app.use(express.json());
 
-function generateUniqueFilename(filename: any) {
+function generateUniqueFilename(filename: string) {
   const timestamp = Date.now();
   const randomString = Math.random().toString(36).substring(7);
   const extension = path.extname(filename);
-  return `${timestamp}_${randomString}${extension}`;
+  // Assuming you want to save the files in a directory named 'output'
+  const outputDir = path.join(__dirname, "output");
+  fs.mkdirSync(outputDir, { recursive: true }); // Ensure the directory exists
+  return path.join(outputDir, `${timestamp}_${randomString}${extension}`);
 }
 
 app.post("/transcode", (req, res) => {
@@ -57,6 +60,7 @@ app.post("/transcode", (req, res) => {
     try {
       const uploadPromises = ["720p.mpd", "480p.mpd", "144p.mpd"].map(
         async (filename) => {
+          const filePath = generateUniqueFilename(filename);
           const fileStream = fs.createReadStream(filename);
           const uniqueFilename = generateUniqueFilename(filename);
 
@@ -69,6 +73,7 @@ app.post("/transcode", (req, res) => {
             .promise();
 
           console.log(`${filename} uploaded to S3 as ${uniqueFilename}`);
+          fs.unlinkSync(filePath);
         }
       );
 
