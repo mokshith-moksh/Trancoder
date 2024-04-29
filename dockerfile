@@ -17,14 +17,11 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy the package.json, tsconfig.json, .env.example, and src folder into the Docker image
-COPY package.json tsconfig.json .env.example ./
-COPY src ./src
+COPY package.json tsconfig.json .env ./
+COPY index.ts ./
+
+# Copy the outdir directory into the Docker image
+COPY final ./final
 
 # Install npm dependencies
 RUN npm install
-
-# Expose port 3000
-EXPOSE 3000
-
-# Run the application
-CMD ["npm", "run", "dev"]
