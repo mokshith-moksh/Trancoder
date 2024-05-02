@@ -1,11 +1,6 @@
-import express from "express";
 import { exec } from "child_process";
 import * as dotenv from "dotenv";
 dotenv.config();
-const app = express();
-const port = 3000;
-
-app.use(express.json());
 
 // Function to execute the transcoding command
 function startTranscoding() {
@@ -34,9 +29,4 @@ function startTranscoding() {
     console.log(error);
   }
 }
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  // Start transcoding as soon as the server starts
-  startTranscoding();
-});
+startTranscoding();
