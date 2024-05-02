@@ -25,3 +25,6 @@ COPY final ./final
 
 # Install npm dependencies
 RUN npm install
+
+# Run npm run dev after npm install
+CMD ["npm", "run", "dev"]
