@@ -13,10 +13,10 @@ dotenv.config();
 
 const s3 = new S3Client({
     region: 'auto',
-    endpoint: `https://eade2f9368bc5fef4fa120312a02e3ae.r2.cloudflarestorage.com`,
+    endpoint: `${process.env.END_POINT}`,
     credentials: {
-        accessKeyId: `56e2a918c07d63156b555e37f467b39f`,
-        secretAccessKey: `0b5412fccf03f95c5f875bcaf91e7bc170ea58d288027f8f3eb26c68d54f8768`,
+        accessKeyId: `${process.env.ACCESS_KEY_ID}`,
+        secretAccessKey: `${process.env.SECRET_ACCESS_KEY}`,
     },
 });
 
