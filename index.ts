@@ -20,7 +20,7 @@ const s3 = new S3Client({
     },
 });
 
-// Step 2: Convert exec to promise-based
+
 const execPromise = util.promisify(exec);
 
 async function main() {
@@ -62,8 +62,8 @@ async function uploadDirectoryToS3(dirPath:any, bucketName:any, baseKey = 'moksh
 }
 
 async function uploadToR2() {
-    const dirPath = './final'; // Directory containing the files to upload
-    const bucketName = 'bucket1'; // Replace with your S3 bucket name
+    const dirPath = './final'; // replace as needed
+    const bucketName = 'bucket1'; // replace as needed
     console.log(
         await s3.send(
           new ListBucketsCommand('')
