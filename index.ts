@@ -1,8 +1,14 @@
 import { exec } from "child_process";
+
 import util from 'util';
 import * as dotenv from "dotenv";
 import {
     S3Client,
+import util from 'util'; // Step 1: Import util
+import * as dotenv from "dotenv";
+import {
+    S3Client,
+    ListBucketsCommand,
     PutObjectCommand,
 } from "@aws-sdk/client-s3";
 import fs from 'fs';
@@ -19,7 +25,6 @@ const s3 = new S3Client({
     },
 });
 
-// Convert exec to promise-based
 const execPromise = util.promisify(exec);
 
 async function main() {
@@ -39,6 +44,7 @@ async function uploadFileToS3(filePath:any, bucketName:any, key:any) {
 
     try {
         const data = await s3.send(new PutObjectCommand(uploadParams));
+
         console.log(`File uploaded successfully`);
         console.log(JSON.stringify(data, null, 2));
     } catch (err) {
@@ -46,7 +52,9 @@ async function uploadFileToS3(filePath:any, bucketName:any, key:any) {
     }
 }
 
-async function uploadDirectoryToS3(dirPath:any, bucketName:any, baseKey = 'test1') {
+
+async function uploadDirectoryToS3(dirPath:any, bucketName:any, baseKey = 'mokshith') {
+
     const files = fs.readdirSync(dirPath);
 
     for (const file of files) {
@@ -77,7 +85,9 @@ async function startTranscoding() {
         return;
     }
 
+
     const command = `ffmpeg -i ${inputUrl} -map 0 -map 0 -c:a aac -strict -2 -c:v libx264 -min_seg_duration 2000 -window_size 5 -extra_window_size 5 -use_template 1 -use_timeline 1 -f dash -adaptation_sets "id=0,streams=v id=1,streams=a" -b:v:0 800k -b:v:1 1500k -s:v:0 854x480 -s:v:1 1280x720 ./final/${filename}.mpd`;
+
 
     try {
         await execPromise(command); // Use the promise-based exec
